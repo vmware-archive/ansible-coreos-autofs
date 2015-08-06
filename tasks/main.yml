@@ -1,0 +1,23 @@
+---
+# tasks file for ansible-coreos-autofs
+- name: Create autofs config dir
+  sudo: yes
+  sudo_user: root
+  file: path={{coreos_autofs_etc}} state=directory mode=0755
+
+- name: Create install dir
+  sudo: yes
+  sudo_user: root
+  file: path={{coreos_autofs_install_dir}} state=directory mode=0755
+
+- name: Install autofs
+  shell: >
+    docker run -v {{coreos_autofs_install_dir}}:/opt
+    -v {{coreos_autofs_etc}}:/etc/autofs
+    -v {{coreos_autofs_systemd}}:/etc/systemd/system
+    -v /etc/default:/etc/default
+    {{coreos_autofs_container}}
+  creates: {{coreos_autofs_systemd}}/autofs.service
+
+- name: Start autofs
+  service: name=autofs.service state=started
