@@ -12,12 +12,14 @@
 
 - name: Install autofs
   shell: >
+    creates={{coreos_autofs_systemd}}/autofs.service
     docker run -v {{coreos_autofs_install_dir}}:/opt
     -v {{coreos_autofs_etc}}:/etc/autofs
     -v {{coreos_autofs_systemd}}:/etc/systemd/system
     -v /etc/default:/etc/default
     {{coreos_autofs_container}}
-  creates: {{coreos_autofs_systemd}}/autofs.service
 
 - name: Start autofs
-  service: name=autofs.service state=started
+  sudo: yes
+  sudo_user: root
+  service: name=autofs.service state=started enabled=yes
