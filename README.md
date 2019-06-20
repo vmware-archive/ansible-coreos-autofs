@@ -22,4 +22,8 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-MIT
+Copyright (c) 2015 VMware, Inc.
+
+SPDX-License-Identifier: MIT OR GPL-3.0-only
+
+This code is Dual Licensed MIT or GPLv3
